@@ -1,6 +1,11 @@
 ## Install
 
+```
 yarn
+```
+
+I too lazy to properly configure this so if you want to refresh the CSS and use tailwind, you have to run the command:
+`npx tailwind build app/styles/tailwind.css -o app/styles/app.global.css`
 
 ## Starting Development
 
