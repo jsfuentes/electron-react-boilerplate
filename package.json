@@ -1,15 +1,16 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.18.1",
+  "name": "slingshow",
+  "productName": "Slingshow",
+  "version": "0.0.6",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
-    "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
+    "build": "cd app && yarn build:css && cd .. && concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
     "build-e2e": "cross-env E2E_BUILD=true yarn build",
     "build-main": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.main.prod.babel.js --colors",
     "build-renderer": "cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.babel.js --colors",
-    "dev": "cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev",
+    "dev": "concurrently \"cd app && yarn watch:css\" \"cross-env START_HOT=1 node -r @babel/register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 yarn start-renderer-dev\"",
+    "dev-package": "DEBUG_PROD=true yarn package",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
@@ -56,9 +57,10 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Slingshow",
+    "appId": "org.jn.Slingshow",
     "files": [
+      "assets/",
       "dist/",
       "node_modules/",
       "app.html",
@@ -66,6 +68,12 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "protocols": {
+      "name": "slingshow-protocol",
+      "schemes": [
+        "slingshow"
+      ]
+    },
     "dmg": {
       "contents": [
         {
@@ -81,10 +89,17 @@
       ]
     },
     "win": {
-      "target": ["nsis", "msi"]
+      "target": [
+        "nsis",
+        "msi"
+      ]
     },
     "linux": {
-      "target": ["deb", "rpm", "AppImage"],
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
       "category": "Development"
     },
     "directories": {
@@ -93,60 +108,48 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate",
-      "private": false
+      "owner": "jsfuentes",
+      "repo": "Room",
+      "private": true
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/jsfuentes/Room.git"
   },
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Slingshow",
+    "email": "jsjfuentesj@gmail.com",
+    "url": "https://www.slingshow.com"
   },
-  "contributors": [
-    {
-      "name": "Vikram Rangaraj",
-      "email": "vikr01@icloud.com",
-      "url": "https://github.com/vikr01"
-    },
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
-  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
-  },
   "keywords": [
     "electron",
-    "boilerplate",
-    "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "communication",
+    "productivity"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://www.slingshow.com",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"
     },
-    "moduleFileExtensions": ["js", "jsx", "json"],
-    "moduleDirectories": ["node_modules", "app/node_modules"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/node_modules"
+    ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
-    "setupFiles": ["./internals/scripts/CheckBuildsExist.js"]
+    "setupFiles": [
+      "./internals/scripts/CheckBuildsExist.js"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
@@ -191,10 +194,10 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-erb": "^0.1.1",
-    "eslint-config-prettier": "^6.6.0",
+    "eslint-config-prettier": "^6.9.0",
     "eslint-formatter-pretty": "^3.0.0",
     "eslint-import-resolver-webpack": "^0.12.0",
     "eslint-plugin-compat": "^3.3.0",
@@ -202,9 +205,10 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jest": "^23.1.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-testcafe": "^0.2.1",
     "fbjs-scripts": "^1.2.0",
     "file-loader": "^5.0.2",
@@ -246,30 +250,35 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@hot-loader/react-dom": "^16.11.0",
-    "connected-react-router": "^6.6.1",
-    "core-js": "^3.5.0",
-    "devtron": "^1.4.0",
+    "axios": "^0.19.1",
     "electron-debug": "^3.0.1",
-    "electron-log": "^4.0.0",
-    "electron-updater": "^4.2.0",
+    "electron-is-dev": "^1.1.0",
+    "electron-log": "^4.0.4",
+    "electron-store": "^5.1.0",
     "history": "^4.10.1",
+    "lodash": "^4.17.15",
+    "node-cron": "^2.0.3",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.10.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-feather": "^2.0.3",
     "react-hot-loader": "^4.12.18",
+    "react-loader-spinner": "^3.1.5",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "react-select": "^3.0.8",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.16"
+    "socket.io-client": "^2.3.0",
+    "source-map-support": "^0.5.16",
+    "uuidv4": "^6.0.2"
   },
   "devEngines": {
     "node": ">=7.x",
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "browserslist": "electron 1.6"
 }
