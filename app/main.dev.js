@@ -27,7 +27,7 @@ Object.assign(console, log.functions); //replace console with file logging in th
 import MenuBuilder from "./menu";
 
 //Constants
-const APP_NAME = "slingshow";
+const APP_NAME = "electon-react-boilerplate";
 const AUTOUPDATE_SERVER_URL = `https://${APP_NAME}.now.sh`;
 
 //Global Windows
@@ -190,7 +190,7 @@ app.on("activate", () => {
   createOrShowWindow();
 });
 
-// This will catch clicks on links such as <a href="slingshow://abc=1">open in slingshow</a>
+// This will catch clicks on links such as <a href="erb://abc=1">open in erb</a> only if you configured the right protocol in the package.json > build > protocols
 //TODO: Dont wait for request, instead open window early.
 //TODO: Potential Security Problem.....
 // app.on("open-url", (event, data) => {
